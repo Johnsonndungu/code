@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code PlanKe Solutions | Strategic Engineering & Future Systems</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Code PlanKe Solutions: Architecting the next generation of digital powerhouses with uncompromising engineering and elite design.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#B8860B', // Metallic Gold
+                        secondary: '#4A4A4A',
+                        dark: '#050505',
+                        accent: '#D4AF37',
+                        error: '#D22B2B'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; margin: 0; padding: 0; overflow-x: hidden; }
+        h1, h2, h3, h4, .font-serif { font-family: 'Playfair Display', serif; }
+        
+        /* Sticky Header Glassmorphism */
+        .glass-header {
+            background: rgba(5, 5, 5, 0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(184, 134, 11, 0.2);
+        }
+        
+        /* Scroll Progress Bar */
+        #scroll-progress {
+            height: 2px;
+            background: linear-gradient(to right, #B8860B, #D4AF37);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 0%;
+            transition: width 0.1s ease-out;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .glass-card:hover {
+            border-color: rgba(184, 134, 11, 0.4);
+            background: rgba(184, 134, 11, 0.03);
+            transform: translateY(-12px) scale(1.01);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFFFFF 50%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: -20%;
+            right: -20%;
+            width: 1000px;
+            height: 1000px;
+            background: radial-gradient(circle, rgba(184, 134, 11, 0.08) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Particle Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .section-padding { padding: 100px 0; }
+        @media (min-width: 1024px) {
+            .section-padding { padding: 180px 0; }
+        }
+        
+        section[id] { scroll-margin-top: 80px; }
+
+        /* Reveal Animation Styles */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-button {
+            background: #B8860B;
+            color: black;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: all 0.6s;
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            background: #D4AF37;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(184, 134, 11, 0.4);
+        }
+
+        .nav-link {
+            position: relative;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #B8860B;
+            opacity: 1;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: #B8860B;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .premium-bg {
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(184, 134, 11, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+
+        /* Portfolio Custom Hover */
+        .portfolio-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            opacity: 0.6;
+            transition: opacity 0.6s ease;
+        }
+        .group:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        #mobile-menu {
+            transition: all 0.7s cubic-bezier(0.85, 0, 0.15, 1);
+            clip-path: circle(0% at 100% 0%);
+        }
+        #mobile-menu.open {
+            clip-path: circle(150% at 100% 0%);
+        }
+
+        .input-error {
+            border-bottom-color: #D22B2B !important;
+            color: #D22B2B !important;
+        }
+
+        /* Timeline Styles */
+        .timeline-container {
+            position: relative;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(184, 134, 11, 0.3) 10%, rgba(184, 134, 11, 0.3) 90%, transparent);
+            transform: none;
+        }
+        @media (min-width: 768px) {
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Interactive Timeline Hover Effects */
+        .step-detail {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(10px);
+        }
+        .timeline-step:hover .step-detail {
+            max-height: 200px;
+            opacity: 1;
+            transform: translateY(0);
+            margin-top: 1.5rem;
+        }
+        .timeline-step:hover .step-marker {
+            background: #B8860B;
+            transform: scale(1.15);
+            box-shadow: 0 0 25px rgba(184, 134, 11, 0.5);
+        }
+        .timeline-step:hover .step-marker span {
+            color: black;
+        }
+    </style>
+</head>
+<body class="selection:bg-primary selection:text-black premium-bg">
+
+    <div id="scroll-progress"></div>
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-glow"></div>
+
+    <!-- Navigation -->
+    <header id="main-nav" class="fixed top-0 w-full z-50 py-6 lg:py-10 transition-all duration-700">
+        <div class="container mx-auto px-6 lg:px-16 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 md:gap-5 group">
+                <div class="w-10 h-10 md:w-14 md:h-14 border-2 border-primary/40 rounded-sm flex items-center justify-center font-serif font-bold text-primary group-hover:border-primary group-hover:bg-primary group-hover:text-black transition-all duration-700">
+                    CP
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-lg md:text-2xl font-serif font-bold tracking-[0.2em] uppercase leading-none">
+                        Code <span class="text-primary italic">PlanKe</span>
+                    </span>
+                    <span class="text-[7px] md:text-[9px] uppercase tracking-[0.6em] text-white/30 mt-1.5 font-bold">Solutions Group</span>
+                </div>
+            </a>
+            
+            <nav class="hidden lg:flex items-center gap-14">
+                <a href="#solutions" class="nav-link" data-scrollspy>Solutions</a>
+                <a href="#why-us" class="nav-link" data-scrollspy>Advantage</a>
+                <a href="#lifecycle" class="nav-link" data-scrollspy>Lifecycle</a>
+                <a href="#portfolio" class="nav-link" data-scrollspy>Portfolio</a>
+                <a href="#contact" class="cta-button px-10 py-4 text-[10px] rounded-sm">Initialize Project</a>
+            </nav>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-primary p-2 focus:outline-none z-50 hover:scale-110 transition-transform">
+                <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-dark z-40 lg:hidden flex flex-col items-center justify-center space-y-12 md:space-y-16">
+        <a href="#solutions" class="mobile-nav-link text-3xl md:text-4xl font-serif tracking-[0.2em] hover:text-primary transition-all">Solutions</a>
+        <a href="#why-us" class="mobile-nav-link text-3xl md:text-4xl font-serif tracking-[0.2em] hover:text-primary transition-all">Advantage</a>
+        <a href="#lifecycle" class="mobile-nav-link text-3xl md:text-4xl font-serif tracking-[0.2em] hover:text-primary transition-all">Lifecycle</a>
+        <a href="#portfolio" class="mobile-nav-link text-3xl md:text-4xl font-serif tracking-[0.2em] hover:text-primary transition-all">Portfolio</a>
+        <a href="#contact" class="mobile-nav-link cta-button px-12 md:px-16 py-5 md:py-6 text-xs md:text-sm">Initialize Project</a>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center relative overflow-hidden py-20">
+            <div class="container mx-auto px-6 lg:px-16">
+                <div class="max-w-6xl mx-auto text-center flex flex-col items-center">
+                    <div class="reveal inline-flex items-center gap-3 px-4 py-1.5 border border-primary/30 rounded-full bg-primary/5 mb-8 md:mb-14">
+                        <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_#B8860B] animate-pulse"></span>
+                        <span class="text-[8px] md:text-[9px] uppercase tracking-[0.4em] md:tracking-[0.5em] font-bold text-primary">Strategic Engineering 2024</span>
+                    </div>
+                    <h1 class="reveal text-4xl sm:text-6xl md:text-[8rem] font-serif mb-8 md:mb-12 leading-[1.1] md:leading-[0.95] tracking-tighter px-4">
+                        Architecting <br class="hidden sm:block"> <span class="text-gradient">Pure Vision</span>.
+                    </h1>
+                    <p class="reveal text-lg md:text-2xl text-white/40 font-light leading-relaxed max-w-4xl mb-12 md:mb-20 px-4">
+                        Code PlanKe Solutions: Where mathematical precision meets artistic foresight. We build the infrastructures that empower the visionaries of tomorrow.
+                    </p>
+                    <div class="reveal flex flex-col sm:flex-row gap-6 md:gap-10 justify-center w-full sm:w-auto px-6">
+                        <a href="#contact" class="cta-button px-8 md:px-14 py-4 md:py-6 text-center text-xs md:text-sm rounded-sm">Request Private Briefing</a>
+                        <a href="#solutions" class="group border border-white/10 hover:border-primary/50 glass-card px-8 md:px-14 py-4 md:py-6 text-center uppercase tracking-[0.3em] text-[10px] md:text-xs font-bold transition-all flex items-center justify-center gap-4">
+                            Explore Capabilities
+                            <svg class="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Atmospheric scroll indicator -->
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-30 animate-bounce">
+                <span class="text-[8px] uppercase tracking-[0.6em] font-bold">Scroll</span>
+                <div class="w-0.5 h-12 md:h-16 bg-gradient-to-b from-primary to-transparent"></div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section id="expertise" class="bg-primary/5 py-16 md:py-32 border-y border-white/5 relative">
+            <div class="container mx-auto px-6 lg:px-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-20">
+                <div class="reveal flex flex-col items-center text-center">
+                    <div class="text-5xl md:text-7xl font-serif text-primary mb-3 md:mb-5 font-bold">
+                        <span class="stat-counter" data-target="14">0</span>M+
+                    </div>
+                    <div class="text-[10px] md:text-[11px] uppercase tracking-[0.6em] text-white/30 font-bold">Global Scalability</div>
+                </div>
+                <div class="reveal flex flex-col items-center text-center" style="transition-delay: 100ms">
+                    <div class="text-5xl md:text-7xl font-serif text-primary mb-3 md:mb-5 font-bold">
+                        <span class="stat-counter" data-target="99.9" data-decimals="1">0</span>%
+                    </div>
+                    <div class="text-[10px] md:text-[11px] uppercase tracking-[0.6em] text-white/30 font-bold">System Resilience</div>
+                </div>
+                <div class="reveal flex flex-col items-center text-center" style="transition-delay: 200ms">
+                    <div class="text-5xl md:text-7xl font-serif text-primary mb-3 md:mb-5 font-bold">
+                        <span class="stat-counter" data-target="22">0</span>+
+                    </div>
+                    <div class="text-[10px] md:text-[11px] uppercase tracking-[0.6em] text-white/30 font-bold">Industry Disruptions</div>
+                </div>
+                <div class="reveal flex flex-col items-center text-center" style="transition-delay: 300ms">
+                    <div class="text-5xl md:text-7xl font-serif text-primary mb-3 md:mb-5 font-bold">
+                        <span class="stat-counter" data-target="150">0</span>ms
+                    </div>
+                    <div class="text-[10px] md:text-[11px] uppercase tracking-[0.6em] text-white/30 font-bold">Response Speed</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions Section -->
+        <section id="solutions" class="section-padding relative overflow-hidden">
+            <div class="container mx-auto px-6 lg:px-16">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10 md:gap-16 mb-20 md:mb-32">
+                    <div class="max-w-4xl reveal">
+                        <h2 class="text-primary text-[10px] md:text-xs font-bold uppercase tracking-[0.6em] md:tracking-[0.8em] mb-4 md:mb-8">Architectural Mastery</h2>
+                        <h3 class="text-4xl md:text-8xl font-serif leading-tight">Crafting the <span class="italic">Impossible</span> into Code.</h3>
+                    </div>
+                    <p class="reveal text-white/40 max-w-xl text-lg md:text-xl font-light leading-relaxed">
+                        We don't just solve problems. We redefine what is possible through innovative architecture and relentless pursuit of performance.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                    <!-- Service 1 -->
+                    <div class="reveal glass-card p-8 md:p-16 group">
+                        <div class="w-16 h-16 md:w-20 md:h-20 bg-primary/10 flex items-center justify-center mb-8 md:mb-12 border border-primary/20 group-hover:bg-primary/20 transition-all">
+                            <svg class="w-8 h-8 md:w-10 md:h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        </div>
+                        <h4 class="text-3xl md:text-4xl font-serif mb-6 md:mb-8 italic">Core Systems</h4>
+                        <p class="text-white/40 font-light leading-relaxed mb-8 md:mb-12 text-base md:text-lg">Indestructible back-end structures designed for trillion-scale operations and total data integrity.</p>
+                        <a href="#contact" class="text-primary text-[10px] md:text-[11px] font-bold uppercase tracking-[0.3em] md:tracking-[0.4em] hover:tracking-[0.6em] transition-all inline-flex items-center gap-4">Detailed Inquiry →</a>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="reveal glass-card p-8 md:p-16 border-primary/30 bg-primary/[0.04] group">
+                        <div class="w-16 h-16 md:w-20 md:h-20 bg-primary/20 flex items-center justify-center mb-8 md:mb-12 border border-primary/40 group-hover:bg-primary/30 transition-all">
+                            <svg class="w-8 h-8 md:w-10 md:h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <h4 class="text-3xl md:text-4xl font-serif mb-6 md:mb-8 italic">Titan Security</h4>
+                        <p class="text-white/40 font-light leading-relaxed mb-8 md:mb-12 text-base md:text-lg">Beyond standard compliance. We architect digital fortresses utilizing zero-knowledge proofs and adaptive encryption.</p>
+                        <a href="#contact" class="text-primary text-[10px] md:text-[11px] font-bold uppercase tracking-[0.3em] md:tracking-[0.4em] hover:tracking-[0.6em] transition-all inline-flex items-center gap-4">Detailed Inquiry →</a>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="reveal glass-card p-8 md:p-16 group">
+                        <div class="w-16 h-16 md:w-20 md:h-20 bg-primary/10 flex items-center justify-center mb-8 md:mb-12 border border-primary/20 group-hover:bg-primary/20 transition-all">
+                            <svg class="w-8 h-8 md:w-10 md:h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h4 class="text-3xl md:text-4xl font-serif mb-6 md:mb-8 italic">Neural Core AI</h4>
+                        <p class="text-white/40 font-light leading-relaxed mb-8 md:mb-12 text-base md:text-lg">Deploying proprietary intelligence engines that learn, adapt, and evolve with your specific ecosystem.</p>
+                        <a href="#contact" class="text-primary text-[10px] md:text-[11px] font-bold uppercase tracking-[0.3em] md:tracking-[0.4em] hover:tracking-[0.6em] transition-all inline-flex items-center gap-4">Detailed Inquiry →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us Section -->
+        <section id="why-us" class="section-padding relative overflow-hidden bg-white/[0.01]">
+            <div class="container mx-auto px-6 lg:px-16">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
+                    <div class="reveal">
+                        <h2 class="text-primary text-[10px] md:text-xs font-bold uppercase tracking-[0.6em] md:tracking-[0.8em] mb-4 md:mb-8">The Elite Standard</h2>
+                        <h3 class="text-4xl md:text-8xl font-serif leading-tight mb-8 md:mb-14 italic">Redefining Tech <span class="not-italic text-white">Engineering</span>.</h3>
+                        <p class="text-white/40 text-xl md:text-2xl font-light leading-relaxed mb-10 md:mb-16 max-w-2xl italic">
+                            "We don't build software for the world as it is today. We build it for the world that will exist in a decade."
+                        </p>
+                        <ul class="space-y-8 md:space-y-12">
+                            <li class="flex gap-6 md:gap-8 items-start group">
+                                <div class="w-12 h-12 md:w-16 md:h-16 rounded-full border border-primary/20 flex items-center justify-center shrink-0 group-hover:bg-primary transition-all duration-500">
+                                    <span class="text-primary font-bold group-hover:text-black">I</span>
+                                </div>
+                                <div>
+                                    <h5 class="text-2xl md:text-3xl font-serif mb-2 md:mb-3">Visionary Foresight</h5>
+                                    <p class="text-white/30 font-light leading-relaxed text-base md:text-lg">Predicting scale challenges before they manifest, ensuring your foundation remains unshakable.</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-6 md:gap-8 items-start group">
+                                <div class="w-12 h-12 md:w-16 md:h-16 rounded-full border border-primary/20 flex items-center justify-center shrink-0 group-hover:bg-primary transition-all duration-500">
+                                    <span class="text-primary font-bold group-hover:text-black">II</span>
+                                </div>
+                                <div>
+                                    <h5 class="text-2xl md:text-3xl font-serif mb-2 md:mb-3">Elite Talent Pool</h5>
+                                    <p class="text-white/30 font-light leading-relaxed text-base md:text-lg">Every line of code is written by Principal Engineers with a history of delivering high-stakes enterprise successes.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="reveal relative hidden sm:block">
+                        <div class="glass-card aspect-[4/5] p-2 md:p-3 border-primary/10 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1510511459019-5dee99c48db8?auto=format&fit=crop&q=80&w=1200" alt="Future Engineering" class="w-full h-full object-cover grayscale brightness-50 hover:scale-110 transition-transform duration-[3s]">
+                        </div>
+                        <div class="absolute -bottom-8 md:-bottom-16 -left-8 md:-left-16 w-32 md:w-64 h-32 md:h-64 border border-primary/10 -z-10 animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Engineering Lifecycle (Timeline) -->
+        <section id="lifecycle" class="section-padding relative">
+            <div class="container mx-auto px-6 lg:px-16">
+                <div class="max-w-4xl mx-auto text-center mb-16 md:mb-32 reveal">
+                    <h2 class="text-primary text-[10px] md:text-xs font-bold uppercase tracking-[0.6em] md:tracking-[0.8em] mb-4 md:mb-8">The Engineering Lifecycle</h2>
+                    <h3 class="text-4xl md:text-8xl font-serif leading-tight">From Vision <span class="italic text-white">to</span> Reality.</h3>
+                    <p class="text-white/30 text-lg md:text-xl font-light mt-8 md:mt-12 max-w-2xl mx-auto">
+                        A rigorous, systematic approach to delivering high-stakes digital assets with absolute precision. <span class="text-primary italic">Hover for phase insights.</span>
+                    </p>
+                </div>
+
+                <div class="timeline-container max-w-5xl mx-auto pl-10 md:pl-0">
+                    <div class="timeline-line"></div>
+                    
+                    <!-- Step 1 -->
+                    <div class="reveal timeline-step relative flex flex-col md:flex-row items-start md:items-center justify-between mb-20 md:mb-32 group cursor-default">
+                        <div class="md:w-[42%] text-left md:text-right mb-6 md:mb-0">
+                            <h4 class="text-2xl md:text-3xl font-serif text-primary mb-3 md:mb-4">Strategic Briefing</h4>
+                            <p class="text-white/40 font-light text-base md:text-lg leading-relaxed">We dive deep into your organizational objectives, identifying the high-level vision and abstract requirements.</p>
+                            <!-- Interactive Detail Expansion -->
+                            <div class="step-detail md:ml-auto">
+                                <div class="p-6 bg-primary/5 border border-primary/10 rounded-sm">
+                                    <h6 class="text-[10px] uppercase tracking-[0.3em] text-primary mb-2 font-bold">Phase Metrics</h6>
+                                    <ul class="text-[13px] text-white/50 space-y-2 text-left md:text-right">
+                                        <li>• Technical Feasibility Reporting</li>
+                                        <li>• Stakeholder Consensus Mapping</li>
+                                        <li>• High-Level Resource Estimation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-marker absolute left-[-37px] md:relative md:left-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-dark border-2 border-primary z-10 flex items-center justify-center transition-all duration-500 shrink-0 md:mx-8">
+                            <span class="text-primary font-bold text-sm md:text-base">01</span>
+                        </div>
+                        <div class="hidden md:block md:w-[42%]"></div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="reveal timeline-step relative flex flex-col md:flex-row items-start md:items-center justify-between mb-20 md:mb-32 group cursor-default">
+                        <div class="hidden md:block md:w-[42%]"></div>
+                        <div class="step-marker absolute left-[-37px] md:relative md:left-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-dark border-2 border-primary z-10 flex items-center justify-center transition-all duration-500 shrink-0 md:mx-8">
+                            <span class="text-primary font-bold text-sm md:text-base">02</span>
+                        </div>
+                        <div class="md:w-[42%] text-left md:text-left mb-6 md:mb-0">
+                            <h4 class="text-2xl md:text-3xl font-serif text-primary mb-3 md:mb-4">Architecture Design</h4>
+                            <p class="text-white/40 font-light text-base md:text-lg leading-relaxed">Translating the vision into a blueprint of scalable systems, resilient infrastructure, and security protocols.</p>
+                            <div class="step-detail">
+                                <div class="p-6 bg-primary/5 border border-primary/10 rounded-sm">
+                                    <h6 class="text-[10px] uppercase tracking-[0.3em] text-primary mb-2 font-bold">Structural Core</h6>
+                                    <ul class="text-[13px] text-white/50 space-y-2 text-left">
+                                        <li>• Cloud Native Infrastructure Specs</li>
+                                        <li>• Database Schema Optimization</li>
+                                        <li>• Zero-Trust Security Planning</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="reveal timeline-step relative flex flex-col md:flex-row items-start md:items-center justify-between mb-20 md:mb-32 group cursor-default">
+                        <div class="md:w-[42%] text-left md:text-right mb-6 md:mb-0">
+                            <h4 class="text-2xl md:text-3xl font-serif text-primary mb-3 md:mb-4">Elite Engineering</h4>
+                            <p class="text-white/40 font-light text-base md:text-lg leading-relaxed">Principal engineers execute the architecture, building the core logic with uncompromising attention to detail.</p>
+                            <div class="step-detail md:ml-auto">
+                                <div class="p-6 bg-primary/5 border border-primary/10 rounded-sm">
+                                    <h6 class="text-[10px] uppercase tracking-[0.3em] text-primary mb-2 font-bold">Execution Stack</h6>
+                                    <ul class="text-[13px] text-white/50 space-y-2 text-left md:text-right">
+                                        <li>• Modular microservices build-out</li>
+                                        <li>• Clean architecture implementation</li>
+                                        <li>• Real-time telemetry integration</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-marker absolute left-[-37px] md:relative md:left-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-dark border-2 border-primary z-10 flex items-center justify-center transition-all duration-500 shrink-0 md:mx-8">
+                            <span class="text-primary font-bold text-sm md:text-base">03</span>
+                        </div>
+                        <div class="hidden md:block md:w-[42%]"></div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="reveal timeline-step relative flex flex-col md:flex-row items-start md:items-center justify-between mb-20 md:mb-32 group cursor-default">
+                        <div class="hidden md:block md:w-[42%]"></div>
+                        <div class="step-marker absolute left-[-37px] md:relative md:left-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-dark border-2 border-primary z-10 flex items-center justify-center transition-all duration-500 shrink-0 md:mx-8">
+                            <span class="text-primary font-bold text-sm md:text-base">04</span>
+                        </div>
+                        <div class="md:w-[42%] text-left md:text-left mb-6 md:mb-0">
+                            <h4 class="text-2xl md:text-3xl font-serif text-primary mb-3 md:mb-4">Audit & Stress Test</h4>
+                            <p class="text-white/40 font-light text-base md:text-lg leading-relaxed">Rigorous penetration testing, performance audits, and load balancing to ensure peak stability under any condition.</p>
+                            <div class="step-detail">
+                                <div class="p-6 bg-primary/5 border border-primary/10 rounded-sm">
+                                    <h6 class="text-[10px] uppercase tracking-[0.3em] text-primary mb-2 font-bold">Quality Assurance</h6>
+                                    <ul class="text-[13px] text-white/50 space-y-2 text-left">
+                                        <li>• Multi-vector penetration testing</li>
+                                        <li>• High-load simulation (10M+ users)</li>
+                                        <li>• 99.9% resilience verification</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="reveal timeline-step relative flex flex-col md:flex-row items-start md:items-center justify-between group cursor-default">
+                        <div class="md:w-[42%] text-left md:text-right mb-6 md:mb-0">
+                            <h4 class="text-2xl md:text-3xl font-serif text-primary mb-3 md:mb-4">Global Deployment</h4>
+                            <h6 class="text-[9px] md:text-[10px] text-white/20 uppercase tracking-[0.4em] md:tracking-[0.5em] mb-3 md:mb-4">Systems Live</h6>
+                            <p class="text-white/40 font-light text-base md:text-lg leading-relaxed">Orchestrated launch to global environments with zero downtime, followed by active operational monitoring.</p>
+                            <div class="step-detail md:ml-auto">
+                                <div class="p-6 bg-primary/5 border border-primary/10 rounded-sm">
+                                    <h6 class="text-[10px] uppercase tracking-[0.3em] text-primary mb-2 font-bold">Deployment Strategy</h6>
+                                    <ul class="text-[13px] text-white/50 space-y-2 text-left md:text-right">
+                                        <li>• Zero-downtime blue-green rollouts</li>
+                                        <li>• Regional edge acceleration</li>
+                                        <li>• Post-launch tactical support</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-marker absolute left-[-37px] md:relative md:left-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-dark border-2 border-primary z-10 flex items-center justify-center transition-all duration-500 shrink-0 md:mx-8">
+                            <span class="text-primary font-bold text-sm md:text-base">05</span>
+                        </div>
+                        <div class="hidden md:block md:w-[42%]"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="section-padding bg-black/40 relative">
+            <div class="container mx-auto px-6 lg:px-16">
+                <div class="max-w-3xl mb-16 md:mb-32 reveal">
+                    <h2 class="text-primary text-[10px] md:text-xs font-bold uppercase tracking-[0.6em] md:tracking-[0.8em] mb-4 md:mb-8">Iconic Milestones</h2>
+                    <h3 class="text-4xl md:text-8xl font-serif leading-tight">Inspiring Global <span class="text-gradient">Advancement</span>.</h3>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20">
+                    <div class="reveal group relative overflow-hidden aspect-[16/10] cursor-pointer rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1400" alt="Quantum Ledger" class="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-[1.1] transition-all duration-[2s]">
+                        <div class="portfolio-overlay absolute inset-0"></div>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 md:p-16 translate-y-8 group-hover:translate-y-0 transition-transform duration-1000">
+                            <span class="text-primary text-[9px] md:text-[11px] font-bold uppercase tracking-[0.4em] md:tracking-[0.6em] mb-4 md:mb-6">Fintech 3.0</span>
+                            <h5 class="text-3xl md:text-5xl font-serif mb-4 md:mb-6 italic">The Quantum Ledger</h5>
+                            <p class="text-white/50 text-base md:text-xl font-light max-w-lg leading-relaxed">Redefining high-frequency asset management with sub-millisecond settlement finality.</p>
+                        </div>
+                    </div>
+                    <div class="reveal group relative overflow-hidden aspect-[16/10] cursor-pointer rounded-sm">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1400" alt="Security Hub" class="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-[1.1] transition-all duration-[2s]">
+                        <div class="portfolio-overlay absolute inset-0"></div>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 md:p-16 translate-y-8 group-hover:translate-y-0 transition-transform duration-1000">
+                            <span class="text-primary text-[9px] md:text-[11px] font-bold uppercase tracking-[0.4em] md:tracking-[0.6em] mb-4 md:mb-6">Cyber Command</span>
+                            <h5 class="text-3xl md:text-5xl font-serif mb-4 md:mb-6 italic">Aegis Prime</h5>
+                            <p class="text-white/50 text-base md:text-xl font-light max-w-lg leading-relaxed">A zero-trust operational environment protecting mission-critical government infrastructure.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section-padding relative">
+            <div class="container mx-auto px-6 lg:px-16">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-start">
+                    <div class="lg:sticky lg:top-40 reveal text-center lg:text-left">
+                        <h2 class="text-5xl md:text-9xl font-serif mb-10 md:mb-16 leading-tight md:leading-none">Let's Create the <span class="text-gradient italic">Future</span>.</h2>
+                        <p class="text-white/30 text-xl md:text-2xl font-light leading-relaxed mb-12 md:mb-20 max-w-2xl italic mx-auto lg:mx-0">
+                            "Excellence is never an accident. It is always the result of high intention, sincere effort, and intelligent execution."
+                        </p>
+                        
+                        <div class="space-y-12 md:space-y-16">
+                            <div class="flex flex-col md:flex-row gap-6 md:gap-10 items-center lg:items-start group cursor-pointer">
+                                <div class="w-14 h-14 md:w-16 md:h-16 border border-primary/20 flex items-center justify-center shrink-0 group-hover:border-primary transition-colors">
+                                    <svg class="w-6 h-6 md:w-7 md:h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                </div>
+                                <div>
+                                    <h6 class="text-[9px] md:text-[11px] font-bold uppercase tracking-[0.4em] md:tracking-[0.5em] mb-2 md:mb-3 text-primary">Strategic Inquiries</h6>
+                                    <p class="text-white/60 text-xl md:text-2xl font-serif group-hover:text-white transition-colors">visionary@codeplanke.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal glass-card p-8 md:p-16 lg:p-24">
+                        <form id="premium-contact-form" class="space-y-10 md:space-y-12" novalidate>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
+                                <div class="relative group-input">
+                                    <label class="block text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-white/30 mb-3 md:mb-4 font-bold">Principal Name</label>
+                                    <input type="text" id="name" name="name" required class="w-full py-4 md:py-6 px-0 border-t-0 border-x-0 border-b border-white/10 bg-transparent text-lg md:text-xl font-light focus:border-primary transition-all placeholder:text-white/5" placeholder="Alexander Sterling">
+                                    <p class="error-msg text-error text-[9px] md:text-[10px] uppercase tracking-widest font-bold"></p>
+                                </div>
+                                <div class="relative group-input">
+                                    <label class="block text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-white/30 mb-3 md:mb-4 font-bold">Direct Communication</label>
+                                    <input type="email" id="email" name="email" required class="w-full py-4 md:py-6 px-0 border-t-0 border-x-0 border-b border-white/10 bg-transparent text-lg md:text-xl font-light focus:border-primary transition-all placeholder:text-white/5" placeholder="a.sterling@nexus.com">
+                                    <p class="error-msg text-error text-[9px] md:text-[10px] uppercase tracking-widest font-bold"></p>
+                                </div>
+                            </div>
+                            <div class="relative group-input">
+                                <label class="block text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-white/30 mb-3 md:mb-4 font-bold">Scope Domain</label>
+                                <select name="interest" id="interest" class="w-full py-4 md:py-6 px-0 border-t-0 border-x-0 border-b border-white/10 bg-transparent text-lg md:text-xl font-light focus:border-primary transition-all appearance-none cursor-pointer">
+                                    <option value="" disabled selected class="bg-black">Define Strategy Domain</option>
+                                    <option value="High-Scale" class="bg-black">High-Scale Systems Architecture</option>
+                                    <option value="AI" class="bg-black">Advanced Intelligence Engines</option>
+                                    <option value="Mobile" class="bg-black">Mission-Critical Platforms</option>
+                                    <option value="Modernization" class="bg-black">Institutional Modernization</option>
+                                </select>
+                                <p class="error-msg text-error text-[9px] md:text-[10px] uppercase tracking-widest font-bold"></p>
+                            </div>
+                            <div class="relative group-input">
+                                <label class="block text-[9px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.5em] text-white/30 mb-3 md:mb-4 font-bold">Strategic Abstract</label>
+                                <textarea id="message" name="message" required rows="4" md:rows="5" class="w-full py-4 md:py-6 px-0 border-t-0 border-x-0 border-b border-white/10 bg-transparent text-lg md:text-xl font-light focus:border-primary transition-all resize-none placeholder:text-white/5" placeholder="Elaborate on the project vision..."></textarea>
+                                <p class="error-msg text-error text-[9px] md:text-[10px] uppercase tracking-widest font-bold"></p>
+                            </div>
+                            <button type="submit" class="cta-button w-full py-6 md:py-8 text-xs md:text-sm flex items-center justify-center gap-4 md:gap-6 rounded-sm">
+                                <span id="btn-text">Transmit Project Brief</span>
+                                <svg id="btn-icon" class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </button>
+                        </form>
+                        <div id="contact-success" class="hidden text-center py-10 md:py-20 animate-fade-in">
+                            <div class="w-20 h-20 md:w-28 md:h-28 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 md:mb-12 border border-primary/20">
+                                <svg class="w-10 h-10 md:w-14 md:h-14 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <h4 class="text-3xl md:text-5xl font-serif mb-6 md:mb-8 italic text-gradient">Mission Received.</h4>
+                            <p class="text-white/40 font-light text-lg md:text-xl mb-12 md:mb-16 leading-relaxed">Our strategic command has received your briefing. A principal director will connect shortly.</p>
+                            <button onclick="window.location.reload()" class="text-primary uppercase text-[10px] md:text-[11px] font-bold tracking-[0.4em] md:tracking-[0.5em] border-b border-primary/40 pb-3 hover:border-primary transition-all">Submit Secondary Brief</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-white/5 py-20 md:py-40">
+        <div class="container mx-auto px-6 lg:px-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-24 mb-20 md:mb-40">
+                <div class="lg:col-span-2">
+                    <div class="flex items-center gap-4 md:gap-6 mb-10 md:mb-14">
+                        <div class="w-10 h-10 md:w-12 md:h-12 border-2 border-primary rounded-sm flex items-center justify-center font-serif font-bold text-primary">CP</div>
+                        <span class="text-2xl md:text-3xl font-serif font-bold tracking-[0.2em] uppercase">Code PlanKe</span>
+                    </div>
+                    <p class="text-white/20 font-light text-lg md:text-xl leading-relaxed max-w-xl mb-10 md:mb-16 italic">
+                        "In an era of rapid transition, we architect the permanence of the digital future."
+                    </p>
+                    <div class="flex flex-wrap gap-8 md:gap-10">
+                        <a href="#" class="text-white/30 hover:text-primary transition-all uppercase tracking-[0.4em] text-[9px] md:text-[10px] font-bold">LinkedIn</a>
+                        <a href="#" class="text-white/30 hover:text-primary transition-all uppercase tracking-[0.4em] text-[9px] md:text-[10px] font-bold">Twitter</a>
+                        <a href="#" class="text-white/30 hover:text-primary transition-all uppercase tracking-[0.4em] text-[9px] md:text-[10px] font-bold">Instagram</a>
+                    </div>
+                </div>
+                <div class="md:border-t lg:border-t-0 md:pt-10 lg:pt-0 border-white/5">
+                    <h6 class="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.6em] mb-8 md:mb-12 text-white/60">Ecosystem</h6>
+                    <ul class="space-y-6 md:space-y-8 text-[11px] md:text-[13px] text-white/30 font-bold uppercase tracking-widest">
+                        <li><a href="#" class="hover:text-primary transition-all">Core Architecture</a></li>
+                        <li><a href="#" class="hover:text-primary transition-all">Deep Security</a></li>
+                        <li><a href="#" class="hover:text-primary transition-all">AI Intelligence</a></li>
+                        <li><a href="#" class="hover:text-primary transition-all">Global Scale</a></li>
+                    </ul>
+                </div>
+                <div class="md:border-t lg:border-t-0 md:pt-10 lg:pt-0 border-white/5">
+                    <h6 class="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.6em] mb-8 md:mb-12 text-white/60">Archive</h6>
+                    <ul class="space-y-6 md:space-y-8 text-[11px] md:text-[13px] text-white/30 font-bold uppercase tracking-widest">
+                        <li><a href="#" class="hover:text-primary transition-all">The Manifesto</a></li>
+                        <li><a href="#" class="hover:text-primary transition-all">Case Registry</a></li>
+                        <li><a href="#" class="hover:text-primary transition-all">Strategic Briefing</a></li>
+                        <li><a href="#" class="hover:text-primary transition-all">Global Network</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-10 md:pt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-10 text-[9px] md:text-[11px] uppercase tracking-[0.4em] md:tracking-[0.6em] text-white/10 font-bold text-center md:text-left">
+                <p>&copy; 2024 Code PlanKe Solutions. All Systems Operational.</p>
+                <div class="flex flex-wrap justify-center gap-8 md:gap-16">
+                    <a href="#" class="hover:text-white transition-all">Privacy</a>
+                    <a href="#" class="hover:text-white transition-all">SLA Agreement</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = document.getElementById('main-nav');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const menuIcon = document.getElementById('menu-icon');
+            const scrollProgress = document.getElementById('scroll-progress');
+            
+            // 1. Dynamic Particle Background
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            
+            const resize = () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            };
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.init();
+                }
+                init() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.4;
+                    this.vy = (Math.random() - 0.5) * 0.4;
+                    this.size = Math.random() * 1.5;
+                    this.alpha = Math.random() * 0.5;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.fillStyle = `rgba(184, 134, 11, ${this.alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 150; i++) particles.push(new Particle());
+
+            const animate = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            };
+            animate();
+
+            // 2. Navigation Scroll Effect & Progress
+            window.addEventListener('scroll', () => {
+                // Progress bar
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                scrollProgress.style.width = scrolled + "%";
+
+                // Header transition
+                if (window.scrollY > 100) {
+                    nav.classList.add('glass-header');
+                    nav.classList.remove('py-6', 'lg:py-10');
+                    nav.classList.add('py-4');
+                } else {
+                    nav.classList.remove('glass-header', 'py-4');
+                    nav.classList.add('py-6', 'lg:py-10');
+                }
+            });
+
+            // 3. Reveal Animations with Intersection Observer
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        
+                        // Handle stat counter animation if it's within a reveal
+                        const counters = entry.target.querySelectorAll('.stat-counter');
+                        counters.forEach(counter => {
+                            if (!counter.dataset.started) {
+                                counter.dataset.started = 'true';
+                                animateCounter(counter);
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+            // Stat Counter Animation Logic
+            function animateCounter(el) {
+                const target = parseFloat(el.getAttribute('data-target'));
+                const decimals = parseInt(el.getAttribute('data-decimals') || '0');
+                const duration = 2000; // 2 seconds
+                let startTimestamp = null;
+
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    
+                    // Easing: easeOutExpo
+                    const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                    
+                    const current = easeProgress * target;
+                    el.textContent = current.toFixed(decimals);
+
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        el.textContent = target.toFixed(decimals);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            // 4. Mobile Menu Logic
+            let isMenuOpen = false;
+            const toggleMenu = () => {
+                isMenuOpen = !isMenuOpen;
+                mobileMenu.classList.toggle('open');
+                document.body.classList.toggle('overflow-hidden');
+                menuIcon.setAttribute('d', isMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 8h16M4 16h16');
+            };
+            mobileMenuBtn.addEventListener('click', toggleMenu);
+            document.querySelectorAll('.mobile-nav-link').forEach(l => l.addEventListener('click', toggleMenu));
+
+            // 5. ScrollSpy & Smooth Scroll
+            const spyLinks = document.querySelectorAll('[data-scrollspy]');
+            const spySections = Array.from(spyLinks).map(link => document.querySelector(link.getAttribute('href')));
+
+            window.addEventListener('scroll', () => {
+                let currentSectionId = "";
+                const scrollPos = window.scrollY + nav.offsetHeight + 100;
+
+                spySections.forEach(section => {
+                    if (section && scrollPos >= section.offsetTop) {
+                        currentSectionId = `#${section.id}`;
+                    }
+                });
+
+                spyLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === currentSectionId) link.classList.add('active');
+                });
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        const offset = nav.offsetHeight;
+                        const bodyRect = document.body.getBoundingClientRect().top;
+                        const elementRect = target.getBoundingClientRect().top;
+                        const elementPosition = elementRect - bodyRect;
+                        const offsetPosition = elementPosition - offset - 20;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // 6. Premium Contact Form Logic
+            const form = document.getElementById('premium-contact-form');
+            const successMsg = document.getElementById('contact-success');
+            const btnText = document.getElementById('btn-text');
+            const btnIcon = document.getElementById('btn-icon');
+
+            const showError = (id, message) => {
+                const el = document.getElementById(id);
+                const error = el.nextElementSibling;
+                error.textContent = message;
+                error.classList.add('visible');
+                el.classList.add('input-error');
+                el.parentElement.classList.add('animate-shake');
+            };
+
+            const clearError = (id) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const error = el.nextElementSibling;
+                if (error && error.classList.contains('error-msg')) error.classList.remove('visible');
+                el.classList.remove('input-error');
+                el.parentElement.classList.remove('animate-shake');
+            };
+
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    let valid = true;
+
+                    const fields = ['name', 'email', 'interest', 'message'];
+                    fields.forEach(f => clearError(f));
+
+                    const name = document.getElementById('name');
+                    const email = document.getElementById('email');
+                    const interest = document.getElementById('interest');
+                    const message = document.getElementById('message');
+
+                    if (!name.value.trim()) { showError('name', 'Name required.'); valid = false; }
+                    if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { showError('email', 'Valid email required.'); valid = false; }
+                    if (!interest.value) { showError('interest', 'Select domain.'); valid = false; }
+                    if (message.value.trim().length < 20) { showError('message', 'Brief too short.'); valid = false; }
+
+                    if (valid) {
+                        btnText.textContent = 'Transmitting...';
+                        btnIcon.classList.add('animate-spin');
+                        setTimeout(() => {
+                            form.classList.add('hidden');
+                            successMsg.classList.remove('hidden');
+                        }, 1500);
+                    }
+                });
+
+                form.querySelectorAll('input, textarea, select').forEach(el => {
+                    el.addEventListener('input', () => { if (el.value.trim().length > 0) clearError(el.id); });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
